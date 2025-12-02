@@ -1,6 +1,7 @@
 from database.DB_connect import DBConnect
 from model.hub import Hub
 from model.spedizione import Spedizione
+from model.tratta import Tratta
 
 class DAO:
     """
@@ -40,14 +41,13 @@ class DAO:
         cursor.execute(query)
         for row in cursor:
             # facendo in questo modo mi sto creando un dizionario in questo modo:
-            # hub1 = {1: Hub(id, codice, nome, città, stato, latitudine, longitudine)
-            # dove la chiave "1" coincide con row["hub1"]
+            # hub1 = hub1 (id, codice, nome, città, stato, latitudine, longitudine)
 
             hub1 = hubs_dict[row["hub1"]]
             hub2 = hubs_dict[row["hub2"]]
             peso = row["peso"]
 
-            result.append(Spedizione(hub1, hub2, peso))
+            result.append(Tratta(hub1, hub2, peso))
 
         cursor.close()
         conn.close()
