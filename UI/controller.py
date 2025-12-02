@@ -17,22 +17,19 @@ class Controller:
         * Lista di Tratte che superano il costo indicato come soglia
         """
         # TODO
-        try:
-            threshold = float(self._view.guadagno_medio_minimo.value)
-        except ValueError:
-            self._view.show_alert("Inserisci un numero valido")
-            return
 
-        self._model.costruisci_grafo(threshold)
-
-        self._view.lista_visualizzazione.controls.clear()
-        self._view.lista_visualizzazione.controls.append(
-            f" Numero di Hub: {self._model.get_num_nodes()}")
-        self._view.lista_visualizzazione.controls.append(
-            f" Numero di Tratte: {self._model.get_num_edges()}")
-
-        for u, v, peso in self._model.get_all_edges():
+        if self._view.guadagno_medio_minimo.value.isdigit():
+            self._view.lista_visualizzazione.controls.clear()
+            self._model.costruisci_grafo(self._view.guadagno_medio_minimo.value)
             self._view.lista_visualizzazione.controls.append(
-                f"{u.nome} ({u.stato}"
-            )
+                f" Numero di nodi: {self._model.get_num_nodes()}")
+            self._view.lista_visualizzazione.controls.append(
+                f" Numero di tratte: {self._model.get_num_edges()}")
+            self._view.lista_visualizzazione.controls.append(
+                f" Lista tratte: {self._model.get_all_edges()}")
+            self._view.update()
+
+        else:
+            self._view.show_alert("Inserire un valore valido!")
+
 
